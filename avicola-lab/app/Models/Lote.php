@@ -19,6 +19,10 @@ class Lote extends Model
         'observaciones'
     ];
 
+    protected $casts = [
+        'fecha_ingreso' => 'date',
+    ];
+
     public function granja()
     {
         return $this->belongsTo(Granja::class);

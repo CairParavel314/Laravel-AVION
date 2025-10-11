@@ -6,6 +6,7 @@ use App\Models\Granja;
 use App\Models\Lote;
 use App\Models\Prueba;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,7 +39,7 @@ class DatabaseSeeder extends Seeder
             $lotes = [
                 [
                     'codigo_lote' => 'LOTE-' . $granja->id . '-001',
-                    'fecha_ingreso' => now()->subDays(30),
+                    'fecha_ingreso' => Carbon::now()->subDays(30)->format('Y-m-d'),
                     'numero_aves' => 5000,
                     'raza' => 'Lohmann Brown',
                     'estado' => 'activo',
@@ -46,7 +47,7 @@ class DatabaseSeeder extends Seeder
                 ],
                 [
                     'codigo_lote' => 'LOTE-' . $granja->id . '-002',
-                    'fecha_ingreso' => now()->subDays(15),
+                    'fecha_ingreso' => Carbon::now()->subDays(15)->format('Y-m-d'),
                     'numero_aves' => 3000,
                     'raza' => 'Hy-Line Brown',
                     'estado' => 'activo',
@@ -61,7 +62,7 @@ class DatabaseSeeder extends Seeder
                 $pruebas = [
                     [
                         'tipo_prueba' => 'alimento',
-                        'fecha_prueba' => now()->subDays(2),
+                        'fecha_prueba' => Carbon::now()->subDays(2)->format('Y-m-d'),
                         'parametro' => 'Proteína',
                         'valor' => 18.5,
                         'unidad_medida' => '%',
@@ -71,13 +72,23 @@ class DatabaseSeeder extends Seeder
                     ],
                     [
                         'tipo_prueba' => 'laboratorio',
-                        'fecha_prueba' => now()->subDays(1),
+                        'fecha_prueba' => Carbon::now()->subDays(1)->format('Y-m-d'),
                         'parametro' => 'Salmonella',
                         'valor' => 0,
                         'unidad_medida' => 'UFC/g',
                         'resultado' => 'normal',
                         'observaciones' => 'Resultado negativo',
                         'realizada_por' => 'Dr. Pérez'
+                    ],
+                    [
+                        'tipo_prueba' => 'alimento',
+                        'fecha_prueba' => Carbon::now()->format('Y-m-d'),
+                        'parametro' => 'Calcio',
+                        'valor' => 3.8,
+                        'unidad_medida' => '%',
+                        'resultado' => 'anormal',
+                        'observaciones' => 'Nivel bajo, requiere suplemento',
+                        'realizada_por' => 'Lab. Nutrición'
                     ]
                 ];
 
