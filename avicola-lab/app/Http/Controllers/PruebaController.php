@@ -10,13 +10,13 @@ class PruebaController extends Controller
 {
     public function index()
     {
-        $pruebas = Prueba::with('lote.granja')->get();
+        $pruebas = Prueba::with('lote.granja')->latest()->get();
         return view('pruebas.index', compact('pruebas'));
     }
 
     public function create()
     {
-        $lotes = Lote::where('estado', 'activo')->get();
+        $lotes = Lote::where('estado', 'activo')->with('granja')->get();
         return view('pruebas.create', compact('lotes'));
     }
 
@@ -33,20 +33,28 @@ class PruebaController extends Controller
             'realizada_por' => 'required|string|max:255',
         ]);
 
-        Prueba::create($request->all());
+        try {
+            Prueba::create($request->all());
 
-        return redirect()->route('pruebas.index')
-            ->with('success', 'Prueba registrada exitosamente.');
+            return redirect()->route('pruebas.index')
+                ->with('success', 'Prueba registrada exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al registrar la prueba: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
     public function show(Prueba $prueba)
     {
+        $prueba->load('lote.granja');
         return view('pruebas.show', compact('prueba'));
     }
 
     public function edit(Prueba $prueba)
     {
-        $lotes = Lote::where('estado', 'activo')->get();
+        $lotes = Lote::where('estado', 'activo')->with('granja')->get();
         return view('pruebas.edit', compact('prueba', 'lotes'));
     }
 
@@ -63,17 +71,31 @@ class PruebaController extends Controller
             'realizada_por' => 'required|string|max:255',
         ]);
 
-        $prueba->update($request->all());
+        try {
+            $prueba->update($request->all());
 
-        return redirect()->route('pruebas.index')
-            ->with('success', 'Prueba actualizada exitosamente.');
+            return redirect()->route('pruebas.show', $prueba)
+                ->with('success', 'Prueba actualizada exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error al actualizar la prueba: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
     public function destroy(Prueba $prueba)
     {
-        $prueba->delete();
+        try {
+            $lote_id = $prueba->lote_id;
+            $prueba->delete();
 
-        return redirect()->route('pruebas.index')
-            ->with('success', 'Prueba eliminada exitosamente.');
+            return redirect()->route('lotes.show', $lote_id)
+                ->with('success', 'Prueba eliminada exitosamente.');
+
+        } catch (\Exception $e) {
+            return redirect()->route('pruebas.index')
+                ->with('error', 'Error al eliminar la prueba: ' . $e->getMessage());
+        }
     }
 }
