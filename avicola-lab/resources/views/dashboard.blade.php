@@ -65,34 +65,36 @@
             <h3 class="text-lg font-medium text-gray-900">Últimas Pruebas Realizadas</h3>
         </div>
         <div class="p-6">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lote</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prueba</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Resultado</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        @foreach($ultimasPruebas as $prueba)
-                        <tr>
-                            <td class="px-4 py-3 text-sm text-gray-900">{{ $prueba->lote->codigo_lote }}</td>
-                            <td class="px-4 py-3 text-sm text-gray-900">{{ $prueba->parametro }}</td>
-                            <td class="px-4 py-3">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    {{ $prueba->resultado == 'normal' ? 'bg-green-100 text-green-800' : 
-                                       ($prueba->resultado == 'anormal' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
-                                    {{ ucfirst($prueba->resultado) }}
-                                </span>
-                            </td>
-                            <td class="px-4 py-3 text-sm text-gray-900">{{ $prueba->fecha_prueba->format('d/m/Y') }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+<div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+        <thead>
+            <tr>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lote</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Prueba</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Resultado</th>
+                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+            @foreach($ultimasPruebas as $prueba)
+            <tr>
+                <td class="px-4 py-3 text-sm text-gray-900">{{ $prueba->lote->codigo_lote }}</td>
+                <td class="px-4 py-3 text-sm text-gray-900">{{ $prueba->parametro }}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        {{ $prueba->resultado == 'normal' ? 'bg-green-100 text-green-800' : 
+                           ($prueba->resultado == 'anormal' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+                        {{ ucfirst($prueba->resultado) }}
+                    </span>
+                </td>
+                <td class="px-4 py-3 text-sm text-gray-900">
+                    {{ \Carbon\Carbon::parse($prueba->fecha_prueba)->format('d/m/Y') }}
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
         </div>
     </div>
 
