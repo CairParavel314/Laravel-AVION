@@ -160,6 +160,23 @@
             fechaInput.value = today;
         }
 
+        // Pre-seleccionar lote si viene por URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const loteId = urlParams.get('lote_id');
+        const loteSelect = document.getElementById('lote_id');
+        
+        if (loteId && loteSelect) {
+            loteSelect.value = loteId;
+            // Deshabilitar el select para evitar cambios
+            loteSelect.disabled = true;
+            
+            // Agregar mensaje informativo
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'mt-2 text-sm text-blue-600';
+            infoDiv.innerHTML = '<i class="fas fa-info-circle mr-1"></i> Lote pre-seleccionado desde la vista anterior';
+            loteSelect.parentNode.appendChild(infoDiv);
+        }
+
         // Auto-completar "realizada_por" si está vacío
         const realizadaPorInput = document.getElementById('realizada_por');
         if (!realizadaPorInput.value) {

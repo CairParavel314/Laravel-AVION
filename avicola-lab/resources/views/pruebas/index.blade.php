@@ -31,9 +31,17 @@
                 <tbody class="divide-y divide-gray-200">
                     @foreach($pruebas as $prueba)
                     <tr>
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
-                            {{ $prueba->lote->codigo_lote }}
-                        </td>
+                      <!-- En la tabla, actualizar esta columna -->
+<td class="px-6 py-4 text-sm font-medium text-gray-900">
+    <a href="{{ route('lotes.show', $prueba->lote) }}" class="text-blue-600 hover:text-blue-900 transition">
+        {{ $prueba->lote->codigo_lote }}
+    </a>
+    <p class="text-xs text-gray-500">
+        <a href="{{ route('granjas.show', $prueba->lote->granja) }}" class="text-gray-600 hover:text-gray-900 transition">
+            {{ $prueba->lote->granja->nombre }}
+        </a>
+    </p>
+</td>
                         <td class="px-6 py-4 text-sm text-gray-900">
                             {{ ucfirst($prueba->tipo_prueba) }}
                         </td>

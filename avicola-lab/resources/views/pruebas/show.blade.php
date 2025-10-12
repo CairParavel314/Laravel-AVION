@@ -2,6 +2,17 @@
 
 @section('title', 'Prueba: ' . $prueba->parametro)
 
+@section('breadcrumbs')
+<span class="mx-2">/</span>
+<a href="{{ route('granjas.index') }}" class="hover:text-gray-900">Granjas</a>
+<span class="mx-2">/</span>
+<a href="{{ route('granjas.show', $prueba->lote->granja) }}" class="hover:text-gray-900">{{ $prueba->lote->granja->nombre }}</a>
+<span class="mx-2">/</span>
+<a href="{{ route('lotes.show', $prueba->lote) }}" class="hover:text-gray-900">{{ $prueba->lote->codigo_lote }}</a>
+<span class="mx-2">/</span>
+<span class="text-gray-500">{{ $prueba->parametro }}</span>
+@endsection
+
 @section('content')
 <div class="max-w-4xl mx-auto">
     <!-- Header de la Prueba -->
@@ -84,29 +95,32 @@
                     </div>
                 </div>
 
-                <div>
-                    <h4 class="text-lg font-medium text-gray-900 mb-4">Información del Lote</h4>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Código Lote:</span>
-                            <a href="{{ route('lotes.show', $prueba->lote) }}" class="text-blue-600 hover:text-blue-900 font-medium">
-                                {{ $prueba->lote->codigo_lote }}
-                            </a>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Granja:</span>
-                            <span>{{ $prueba->lote->granja->nombre }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Raza:</span>
-                            <span>{{ $prueba->lote->raza }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">N° Aves:</span>
-                            <span>{{ number_format($prueba->lote->numero_aves) }}</span>
-                        </div>
-                    </div>
-                </div>
+<!-- Información del Lote - Mejorada -->
+<div>
+    <h4 class="text-lg font-medium text-gray-900 mb-4">Información del Lote</h4>
+    <div class="space-y-3">
+        <div class="flex justify-between">
+            <span class="text-gray-600">Código Lote:</span>
+            <a href="{{ route('lotes.show', $prueba->lote) }}" class="text-blue-600 hover:text-blue-900 font-medium transition">
+                {{ $prueba->lote->codigo_lote }}
+            </a>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-600">Granja:</span>
+            <a href="{{ route('granjas.show', $prueba->lote->granja) }}" class="text-blue-600 hover:text-blue-900 transition">
+                {{ $prueba->lote->granja->nombre }}
+            </a>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-600">Raza:</span>
+            <span>{{ $prueba->lote->raza }}</span>
+        </div>
+        <div class="flex justify-between">
+            <span class="text-gray-600">N° Aves:</span>
+            <span>{{ number_format($prueba->lote->numero_aves) }}</span>
+        </div>
+    </div>
+</div>
             </div>
 
             <!-- Observaciones -->
