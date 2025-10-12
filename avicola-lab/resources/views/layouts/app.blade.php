@@ -66,16 +66,25 @@
 
         <!-- Main Content -->
         <div class="flex-1 ml-64">
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div>
                     <h2 class="text-xl font-semibold text-gray-800">
                         @yield('title')
                     </h2>
-                    <div class="text-sm text-gray-600">
-                        {{ date('d/m/Y') }}
-                    </div>
+                    <!-- Breadcrumbs -->
+                    <nav class="flex text-sm text-gray-600 mt-1">
+                        <a href="{{ route('dashboard') }}" class="hover:text-gray-900">Dashboard</a>
+                        @yield('breadcrumbs')
+                    </nav>
                 </div>
-            </header>
+                <div class="text-sm text-gray-600">
+                    {{ date('d/m/Y') }}
+                </div>
+            </div>
+        </div>
+    </header>
 
             <main class="p-6">
                 @yield('content')
