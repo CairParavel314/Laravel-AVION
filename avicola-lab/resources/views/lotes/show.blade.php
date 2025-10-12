@@ -2,29 +2,45 @@
 
 @section('title', 'Lote: ' . $lote->codigo_lote)
 
+@section('breadcrumbs')
+<span class="mx-2">/</span>
+<a href="{{ route('granjas.index') }}" class="hover:text-gray-900">Granjas</a>
+<span class="mx-2">/</span>
+<a href="{{ route('granjas.show', $lote->granja) }}" class="hover:text-gray-900">{{ $lote->granja->nombre }}</a>
+<span class="mx-2">/</span>
+<span class="text-gray-500">{{ $lote->codigo_lote }}</span>
+@endsection
+
 @section('content')
 <div class="max-w-6xl mx-auto">
     <!-- Header del Lote -->
-    <div class="bg-white rounded-lg shadow overflow-hidden mb-6">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex justify-between items-start">
-                <div>
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $lote->codigo_lote }}</h3>
-                    <p class="text-gray-600 mt-1">Granja: {{ $lote->granja->nombre }}</p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ route('lotes.edit', $lote) }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                        <i class="fas fa-edit mr-2"></i>Editar
+<div class="bg-white rounded-lg shadow overflow-hidden mb-6">
+    <div class="p-6 border-b border-gray-200">
+        <div class="flex justify-between items-start">
+            <div>
+                <h3 class="text-2xl font-bold text-gray-900">{{ $lote->codigo_lote }}</h3>
+                <p class="text-gray-600 mt-1">
+                    Granja: 
+                    <a href="{{ route('granjas.show', $lote->granja) }}" class="text-blue-600 hover:text-blue-900 font-medium transition">
+                        {{ $lote->granja->nombre }}
                     </a>
-                    <a href="{{ route('pruebas.create') }}?lote_id={{ $lote->id }}" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
-                        <i class="fas fa-flask mr-2"></i>Nueva Prueba
-                    </a>
-                    <a href="{{ route('lotes.index') }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition">
-                        <i class="fas fa-arrow-left mr-2"></i>Volver
-                    </a>
-                </div>
+                    <span class="text-gray-400 mx-2">•</span>
+                    <span class="text-gray-500">{{ $lote->granja->ubicacion }}</span>
+                </p>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{{ route('lotes.edit', $lote) }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    <i class="fas fa-edit mr-2"></i>Editar
+                </a>
+                <a href="{{ route('pruebas.create') }}?lote_id={{ $lote->id }}" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-flask mr-2"></i>Nueva Prueba
+                </a>
+                <a href="{{ route('granjas.show', $lote->granja) }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <i class="fas fa-home mr-2"></i>Ver Granja
+                </a>
             </div>
         </div>
+    </div>
         
         <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">

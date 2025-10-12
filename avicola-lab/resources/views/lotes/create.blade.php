@@ -133,9 +133,17 @@
             fechaInput.value = today;
         }
 
+        // Pre-seleccionar granja si viene por URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const granjaId = urlParams.get('granja_id');
+        const granjaSelect = document.getElementById('granja_id');
+        
+        if (granjaId && granjaSelect) {
+            granjaSelect.value = granjaId;
+        }
+
         // Generar código de lote automáticamente si está vacío
         const codigoInput = document.getElementById('codigo_lote');
-        const granjaSelect = document.getElementById('granja_id');
         
         granjaSelect.addEventListener('change', function() {
             if (!codigoInput.value && this.value) {
@@ -143,6 +151,12 @@
                 codigoInput.value = `LOTE-${this.value}-${timestamp}`;
             }
         });
+
+        // También generar código al cargar si hay granja pre-seleccionada
+        if (granjaId && !codigoInput.value) {
+            const timestamp = new Date().getTime().toString().slice(-4);
+            codigoInput.value = `LOTE-${granjaId}-${timestamp}`;
+        }
     });
 </script>
 @endsection
