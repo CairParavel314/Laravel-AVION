@@ -9,14 +9,15 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+public function index()
 {
     $totalGranjas = Granja::count();
     $lotesActivos = Lote::where('estado', 'activo')->count();
     $totalPruebas = Prueba::count();
     $pruebasAnormales = Prueba::whereIn('resultado', ['anormal', 'critico'])->count();
     
-    $ultimasPruebas = Prueba::with('lote')
+    // Cargar relaciones necesarias para las pruebas
+    $ultimasPruebas = Prueba::with(['lote.granja']) // Asegurar que cargue lote y granja
         ->orderBy('fecha_prueba', 'desc')
         ->take(5)
         ->get();
@@ -25,7 +26,6 @@ class DashboardController extends Controller
         $query->where('estado', 'activo');
     }])->get();
 
-    // Agregar lotes recientes
     $lotesRecientes = Lote::with('granja')
         ->orderBy('created_at', 'desc')
         ->take(5)
@@ -38,8 +38,7 @@ class DashboardController extends Controller
         'pruebasAnormales',
         'ultimasPruebas',
         'granjas',
-        'lotesRecientes' // Nueva variable
-    )
-);
+        'lotesRecientes'
+    ));
 }
 }
