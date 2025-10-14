@@ -2,100 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Granja;
-use App\Models\Lote;
-use App\Models\Prueba;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Crear granjas
-        $granjas = [
-            [
-                'nombre' => 'Granja La Esperanza',
-                'ubicacion' => 'Valle del Cauca',
-                'responsable' => 'María González',
-                'telefono' => '3101234567',
-                'email' => 'maria@esperanza.com',
-                'descripcion' => 'Granja especializada en producción de huevo orgánico'
-            ],
-            [
-                'nombre' => 'Avícola San José',
-                'ubicacion' => 'Cundinamarca',
-                'responsable' => 'Carlos Rodríguez',
-                'telefono' => '3209876543',
-                'email' => 'carlos@sanjose.com',
-                'descripcion' => 'Producción avícola con estándares internacionales'
-            ]
-        ];
-
-        foreach ($granjas as $granjaData) {
-            $granja = Granja::create($granjaData);
-
-            // Crear lotes para cada granja
-            $lotes = [
-                [
-                    'codigo_lote' => 'LOTE-' . $granja->id . '-001',
-                    'fecha_ingreso' => Carbon::now()->subDays(30)->format('Y-m-d'),
-                    'numero_aves' => 5000,
-                    'raza' => 'Lohmann Brown',
-                    'estado' => 'activo',
-                    'observaciones' => 'Lote en crecimiento'
-                ],
-                [
-                    'codigo_lote' => 'LOTE-' . $granja->id . '-002',
-                    'fecha_ingreso' => Carbon::now()->subDays(15)->format('Y-m-d'),
-                    'numero_aves' => 3000,
-                    'raza' => 'Hy-Line Brown',
-                    'estado' => 'activo',
-                    'observaciones' => 'Lote nuevo ingresado'
-                ]
-            ];
-
-            foreach ($lotes as $loteData) {
-                $lote = $granja->lotes()->create($loteData);
-
-                // Crear pruebas para cada lote
-                $pruebas = [
-                    [
-                        'tipo_prueba' => 'alimento',
-                        'fecha_prueba' => Carbon::now()->subDays(2)->format('Y-m-d'),
-                        'parametro' => 'Proteína',
-                        'valor' => 18.5,
-                        'unidad_medida' => '%',
-                        'resultado' => 'normal',
-                        'observaciones' => 'Niveles óptimos',
-                        'realizada_por' => 'Lab. Central'
-                    ],
-                    [
-                        'tipo_prueba' => 'laboratorio',
-                        'fecha_prueba' => Carbon::now()->subDays(1)->format('Y-m-d'),
-                        'parametro' => 'Salmonella',
-                        'valor' => 0,
-                        'unidad_medida' => 'UFC/g',
-                        'resultado' => 'normal',
-                        'observaciones' => 'Resultado negativo',
-                        'realizada_por' => 'Dr. Pérez'
-                    ],
-                    [
-                        'tipo_prueba' => 'alimento',
-                        'fecha_prueba' => Carbon::now()->format('Y-m-d'),
-                        'parametro' => 'Calcio',
-                        'valor' => 3.8,
-                        'unidad_medida' => '%',
-                        'resultado' => 'anormal',
-                        'observaciones' => 'Nivel bajo, requiere suplemento',
-                        'realizada_por' => 'Lab. Nutrición'
-                    ]
-                ];
-
-                foreach ($pruebas as $pruebaData) {
-                    $lote->pruebas()->create($pruebaData);
-                }
-            }
-        }
+        $this->call([
+            GranjasLotesBaseSeeder::class,  // Primero granjas y lotes
+            PruebasSampleSeeder::class,     // Luego las 50 pruebas
+        ]);
     }
 }
