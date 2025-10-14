@@ -32,4 +32,18 @@ class Lote extends Model
     {
         return $this->hasMany(Prueba::class);
     }
+
+    // Scope para lotes activos
+    public function scopeActivos($query)
+    {
+        return $query->where('estado', 'activo');
+    }
+
+    // Scope para lotes con pruebas recientes
+    public function scopeConPruebasRecientes($query, $dias = 30)
+    {
+        return $query->whereHas('pruebas', function($q) use ($dias) {
+            $q->where('fecha_prueba', '>=', now()->subDays($dias));
+        });
+    }
 }

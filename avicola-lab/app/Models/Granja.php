@@ -22,4 +22,22 @@ class Granja extends Model
     {
         return $this->hasMany(Lote::class);
     }
+
+    // Nueva relación: Granja tiene muchas pruebas a través de lotes
+    public function pruebas()
+    {
+        return $this->hasManyThrough(Prueba::class, Lote::class);
+    }
+
+    // Relación para contar pruebas con condiciones
+    public function pruebasConResultado($resultado = null)
+    {
+        $query = $this->pruebas();
+        
+        if ($resultado) {
+            $query->where('resultado', $resultado);
+        }
+        
+        return $query;
+    }
 }
